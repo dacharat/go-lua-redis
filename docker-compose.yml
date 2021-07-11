@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  go-lua-redis:
+    build: ./
+    image: go-lua-redis
+    depends_on:
+      - redis
+    ports:
+      - "8080:8080"
+    container_name: go-lua-redis
+    environment:
+      REDIS_URL: redis:6379
+    networks:
+      - lua-redis
+    volumes:
+      - ./:/app
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - lua-redis
+
+volumes:
+  lua-redis:
+networks:
+  lua-redis:
